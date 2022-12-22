@@ -48,8 +48,8 @@ public class PlayerServiceImpl implements PlayerService {
         if (requestDto.getName() != null) {
             footballPlayer.setName(requestDto.getName());
         }
-        if (requestDto.getAge() != null) {
-            footballPlayer.setBirthDate(requestDto.getAge());
+        if (requestDto.getBirthDate() != null) {
+            footballPlayer.setBirthDate(requestDto.getBirthDate());
         }
         if (requestDto.getMonthlyExperience() != null) {
             footballPlayer.setMonthlyExperience(requestDto.getMonthlyExperience());

@@ -23,24 +23,25 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/football-teams")
 public class TeamController {
     private final TeamService footballTeamService;
+    private final TeamDtoMapper teamDtoMapper;
 
     @PostMapping
     public TeamResponseDto save(@RequestBody @Valid TeamRequestDto dto) {
-        Team footballTeam = footballTeamService.save(TeamDtoMapper.INSTANCE.mapToModel(dto));
-        return TeamDtoMapper.INSTANCE.mapToDto(footballTeam);
+        Team footballTeam = footballTeamService.save(teamDtoMapper.mapToModel(dto));
+        return teamDtoMapper.mapToDto(footballTeam);
     }
 
     @GetMapping("/{id}")
     public TeamResponseDto findById(@PathVariable Long id) {
         Team footballTeam = footballTeamService.getById(id);
-        return TeamDtoMapper.INSTANCE.mapToDto(footballTeam);
+        return teamDtoMapper.mapToDto(footballTeam);
     }
 
     @PutMapping("/{id}")
     public TeamResponseDto update(@PathVariable Long id,
                                   @RequestBody TeamRequestDto dto) {
         Team footballTeam = footballTeamService.update(id, dto);
-        return TeamDtoMapper.INSTANCE.mapToDto(footballTeam);
+        return teamDtoMapper.mapToDto(footballTeam);
     }
 
     @DeleteMapping("/{id}")
@@ -51,7 +52,7 @@ public class TeamController {
     @GetMapping
     public List<TeamResponseDto> getAll() {
         return footballTeamService.getAll().stream()
-                .map(TeamDtoMapper.INSTANCE::mapToDto)
+                .map(teamDtoMapper::mapToDto)
                 .collect(Collectors.toList());
     }
 }

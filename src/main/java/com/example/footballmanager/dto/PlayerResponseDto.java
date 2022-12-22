@@ -7,7 +7,7 @@ import lombok.Data;
 public class PlayerResponseDto {
     private Long id;
     private String name;
-    private LocalDate age;
+    private LocalDate birthDate;
     private LocalDate monthlyExperience;
     private Long footballTeamId;
 }

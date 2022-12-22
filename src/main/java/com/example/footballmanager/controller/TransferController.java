@@ -14,11 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/players-transfer")
 public class TransferController {
     private final ManagerService managerService;
+    private final PlayerDtoMapper playerDtoMapper;
 
     @GetMapping("/player-id/{player-id}/team-id/{team-id}")
     public PlayerResponseDto transferPLayer(@PathVariable(name = "player-id") Long playerId,
                                                     @PathVariable(name = "team-id") Long teamId) {
-        return PlayerDtoMapper.INSTANCE.mapToDto(
+        return playerDtoMapper.mapToDto(
                 managerService.transferPlayerToAnotherTeam(playerId, teamId));
     }
 }

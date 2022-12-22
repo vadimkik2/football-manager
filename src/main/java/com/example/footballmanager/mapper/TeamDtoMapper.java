@@ -2,16 +2,44 @@ package com.example.footballmanager.mapper;
 
 import com.example.footballmanager.dto.TeamRequestDto;
 import com.example.footballmanager.dto.TeamResponseDto;
+import com.example.footballmanager.model.Player;
 import com.example.footballmanager.model.Team;
-import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
+import com.example.footballmanager.service.PlayerService;
+import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
-@Mapper
-public interface TeamDtoMapper {
-    TeamDtoMapper INSTANCE = Mappers.getMapper(TeamDtoMapper.class);
+@Component
+@RequiredArgsConstructor
+public class TeamDtoMapper implements RequestDtoMapper<TeamRequestDto, Team>,
+        ResponseDtoMapper<TeamResponseDto, Team> {
+    private final PlayerService playerService;
 
-    Team mapToModel(TeamRequestDto dto);
+    @Override
+    public Team mapToModel(TeamRequestDto dto) {
+        Team footballTeam = new Team();
+        footballTeam.setName(dto.getName());
+        footballTeam.setCommission(dto.getCommission());
+        if (dto.getPlayersIds() != null) {
+            footballTeam.setPlayers(dto.getPlayersIds().stream()
+                    .map(playerService::getByIds)
+                    .collect(Collectors.toList()));
+        }
+        return footballTeam;
+    }
 
-    TeamResponseDto mapToDto(Team team);
-
+    @Override
+    public TeamResponseDto mapToDto(Team footballTeam) {
+        TeamResponseDto responseDto = new TeamResponseDto();
+        responseDto.setId(footballTeam.getId());
+        responseDto.setName(footballTeam.getName());
+        responseDto.setBankAccountId(footballTeam.getBankAccount().getId());
+        responseDto.setCommission(footballTeam.getCommission());
+        if (footballTeam.getPlayers() != null) {
+            responseDto.setPlayersIds(footballTeam.getPlayers().stream()
+                    .map(Player::getId)
+                    .collect(Collectors.toList()));
+        }
+        return responseDto;
+    }
 }

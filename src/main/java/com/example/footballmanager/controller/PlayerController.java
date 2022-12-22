@@ -23,23 +23,24 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class PlayerController {
     private final PlayerService footballPlayerService;
+    private final PlayerDtoMapper playerDtoMapper;
 
     @PostMapping
     public PlayerResponseDto save(@RequestBody @Valid PlayerRequestDto dto) {
-        Player player = footballPlayerService.save(PlayerDtoMapper.INSTANCE.mapToModel(dto));
-        return PlayerDtoMapper.INSTANCE.mapToDto(player);
+        Player player = footballPlayerService.save(playerDtoMapper.mapToModel(dto));
+        return playerDtoMapper.mapToDto(player);
     }
 
     @GetMapping("/{id}")
     public PlayerResponseDto getById(@PathVariable Long id) {
-        return PlayerDtoMapper.INSTANCE.mapToDto(footballPlayerService.getByIds(id));
+        return playerDtoMapper.mapToDto(footballPlayerService.getByIds(id));
     }
 
     @PutMapping("/{id}")
     public PlayerResponseDto update(@PathVariable Long id,
                                     @RequestBody PlayerRequestDto dto) {
         Player player = footballPlayerService.update(id, dto);
-        return PlayerDtoMapper.INSTANCE.mapToDto(player);
+        return playerDtoMapper.mapToDto(player);
     }
 
     @DeleteMapping("/{id}")
@@ -52,14 +53,14 @@ public class PlayerController {
             @PathVariable(name = "team-id") Long teamId) {
         return footballPlayerService.getPlayersByTeam(teamId).stream()
                 .filter(p -> p.getFootballTeam().getId().equals(teamId))
-                .map(PlayerDtoMapper.INSTANCE::mapToDto)
+                .map(playerDtoMapper::mapToDto)
                 .collect(Collectors.toList());
     }
 
     @GetMapping
     public List<PlayerResponseDto> getAllPlayers() {
         return footballPlayerService.getAll().stream()
-                .map(PlayerDtoMapper.INSTANCE::mapToDto)
+                .map(playerDtoMapper::mapToDto)
                 .collect(Collectors.toList());
     }
 }

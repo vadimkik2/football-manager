@@ -44,7 +44,7 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public Team update(Long id, TeamRequestDto teamRequestDto) {
         if (!footballTeamRepository.existsById(id)) {
-            throw new RuntimeException("Team with id " + id + " not found.");
+            throw new RuntimeException("Football team with id " + id + " not found.");
         }
 
         Team footballTeam = footballTeamRepository.getReferenceById(id);

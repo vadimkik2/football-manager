@@ -3,14 +3,39 @@ package com.example.footballmanager.mapper;
 import com.example.footballmanager.dto.PlayerRequestDto;
 import com.example.footballmanager.dto.PlayerResponseDto;
 import com.example.footballmanager.model.Player;
-import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
+import com.example.footballmanager.service.TeamService;
+import org.springframework.stereotype.Component;
 
-@Mapper
-public interface PlayerDtoMapper {
-    PlayerDtoMapper INSTANCE = Mappers.getMapper(PlayerDtoMapper.class);
+@Component
+public class PlayerDtoMapper implements
+        RequestDtoMapper<PlayerRequestDto, Player>,
+        ResponseDtoMapper<PlayerResponseDto, Player> {
+    private final TeamService teamService;
 
-    PlayerResponseDto mapToDto(Player player);
+    public PlayerDtoMapper(TeamService teamService) {
+        this.teamService = teamService;
+    }
 
-    Player mapToModel(PlayerRequestDto dto);
+    @Override
+    public Player mapToModel(PlayerRequestDto dto) {
+        Player player = new Player();
+        player.setName(dto.getName());
+        player.setBirthDate(dto.getBirthDate());
+        player.setMonthlyExperience(dto.getMonthlyExperience());
+        player.setFootballTeam(teamService.getById(dto.getFootballTeamId()));
+        return player;
+    }
+
+    @Override
+    public PlayerResponseDto mapToDto(Player player) {
+        PlayerResponseDto responseDto = new PlayerResponseDto();
+        responseDto.setId(player.getId());
+        responseDto.setName(player.getName());
+        responseDto.setBirthDate(player.getBirthDate());
+        responseDto.setMonthlyExperience(player.getMonthlyExperience());
+        if (player.getFootballTeam() != null) {
+            responseDto.setFootballTeamId(player.getFootballTeam().getId());
+        }
+        return responseDto;
+    }
 }

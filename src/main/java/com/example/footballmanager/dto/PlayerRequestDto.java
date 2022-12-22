@@ -8,7 +8,7 @@ import lombok.Data;
 public class PlayerRequestDto {
     @NotNull
     private String name;
-    private LocalDate age;
+    private LocalDate birthDate;
     @NotNull
     private LocalDate monthlyExperience;
     private Long footballTeamId;
