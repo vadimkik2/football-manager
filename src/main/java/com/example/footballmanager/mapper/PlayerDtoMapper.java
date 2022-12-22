@@ -4,17 +4,14 @@ import com.example.footballmanager.dto.PlayerRequestDto;
 import com.example.footballmanager.dto.PlayerResponseDto;
 import com.example.footballmanager.model.Player;
 import com.example.footballmanager.service.TeamService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PlayerDtoMapper implements
-        RequestDtoMapper<PlayerRequestDto, Player>,
+@RequiredArgsConstructor
+public class PlayerDtoMapper implements RequestDtoMapper<PlayerRequestDto, Player>,
         ResponseDtoMapper<PlayerResponseDto, Player> {
     private final TeamService teamService;
-
-    public PlayerDtoMapper(TeamService teamService) {
-        this.teamService = teamService;
-    }
 
     @Override
     public Player mapToModel(PlayerRequestDto dto) {

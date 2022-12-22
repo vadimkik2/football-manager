@@ -24,7 +24,7 @@ public class PlayerServiceImpl implements PlayerService {
     @Override
     public Player getByIds(Long id) {
         if (!footballPlayerRepository.existsById(id)) {
-            throw new EntityNotFoundException("player with id: " + id + " not found");
+            throw new EntityNotFoundException("Football player with id: " + id + " not found");
         }
         return footballPlayerRepository.getReferenceById(id);
     }
