@@ -25,13 +25,4 @@ public class Player {
     @ManyToOne
     @JoinColumn(name = "football_team")
     private Team footballTeam;
-
-    public Player(String name, LocalDate birthDate, LocalDate monthlyExperience) {
-        this.name = name;
-        this.birthDate = birthDate;
-        this.monthlyExperience = monthlyExperience;
-    }
-
-    public Player() {
-    }
 }
