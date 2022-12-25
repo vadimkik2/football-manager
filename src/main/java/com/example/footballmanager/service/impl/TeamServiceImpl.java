@@ -6,6 +6,7 @@ import com.example.footballmanager.repository.TeamRepository;
 import com.example.footballmanager.service.BankAccountService;
 import com.example.footballmanager.service.PlayerService;
 import com.example.footballmanager.service.TeamService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -31,7 +32,7 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public Team getById(Long id) {
         if (!footballTeamRepository.existsById(id)) {
-            throw new RuntimeException("Football team with id: " + id + " not found.");
+            throw new EntityNotFoundException("Football team with id: " + id + " not found.");
         }
         return footballTeamRepository.getReferenceById(id);
     }
@@ -44,7 +45,7 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public Team update(Long id, TeamRequestDto teamRequestDto) {
         if (!footballTeamRepository.existsById(id)) {
-            throw new RuntimeException("Football team with id " + id + " not found.");
+            throw new EntityNotFoundException("Football team with id " + id + " not found.");
         }
 
         Team footballTeam = footballTeamRepository.getReferenceById(id);
