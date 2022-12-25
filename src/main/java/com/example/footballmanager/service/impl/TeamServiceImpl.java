@@ -38,7 +38,7 @@ public class TeamServiceImpl implements TeamService {
 
     @Override
     public void delete(Long id) {
-        footballTeamRepository.deleteById(id);
+        footballTeamRepository.delete(footballTeamRepository.getReferenceById(id));
     }
 
     @Override
@@ -53,10 +53,6 @@ public class TeamServiceImpl implements TeamService {
         }
         if (teamRequestDto.getPlayersIds() != null && !teamRequestDto.getPlayersIds().isEmpty()) {
             footballTeam.setPlayers(playerService.getAllByIds(teamRequestDto.getPlayersIds()));
-        }
-        if (teamRequestDto.getBankAccountId() != null) {
-            footballTeam.setBankAccount(
-                    bankAccountService.getById(teamRequestDto.getBankAccountId()));
         }
         if (teamRequestDto.getCommission() != null) {
             footballTeam.setCommission(teamRequestDto.getCommission());

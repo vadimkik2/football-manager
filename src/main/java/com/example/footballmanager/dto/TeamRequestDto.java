@@ -12,7 +12,6 @@ public class TeamRequestDto {
     @NotNull
     private String name;
     private List<Long> playersIds;
-    private Long bankAccountId;
     @DecimalMin("0.0") @DecimalMax("0.1")
     private BigDecimal commission;
 }
